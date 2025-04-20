@@ -1,0 +1,70 @@
+{% extends 'tasks/base.html' %}
+
+{% block content %}
+<h1>Task Manager Dashboard</h1>
+
+<div class="dashboard">
+    <div class="stats-container">
+        <div class="stat-box">
+            <h3>Total Tasks</h3>
+            <p class="stat-number">{{ total_tasks }}</p>
+        </div>
+        <div class="stat-box pending">
+            <h3>Pending</h3>
+            <p class="stat-number">{{ pending_tasks }}</p>
+        </div>
+        <div class="stat-box in-progress">
+            <h3>In Progress</h3>
+            <p class="stat-number">{{ in_progress_tasks }}</p>
+        </div>
+        <div class="stat-box completed">
+            <h3>Completed</h3>
+            <p class="stat-number">{{ completed_tasks }}</p>
+        </div>
+    </div>
+
+    <div class="quick-actions">
+        <h2>Quick Actions</h2>
+        <a href="{% url 'task_create' %}" class="btn btn-primary">Create New Task</a>
+        <a href="{% url 'task_list' %}" class="btn">View All Tasks</a>
+    </div>
+
+    <div class="task-sections">
+        <div class="task-section">
+            <h2>Recent Tasks</h2>
+            {% if recent_tasks %}
+                <ul class="task-preview-list">
+                    {% for task in recent_tasks %}
+                        <li class="task-preview">
+                            <h4><a href="{% url 'task_detail' task.pk %}">{{ task.title }}</a></h4>
+                            <span class="task-status {{ task.status }}">{{ task.get_status_display }}</span>
+                            {% if task.due_date %}
+                                <p class="task-due">Due: {{ task.due_date|date:"M d, Y" }}</p>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No tasks created yet.</p>
+            {% endif %}
+        </div>
+
+        <div class="task-section">
+            <h2>Upcoming Tasks</h2>
+            {% if upcoming_tasks %}
+                <ul class="task-preview-list">
+                    {% for task in upcoming_tasks %}
+                        <li class="task-preview">
+                            <h4><a href="{% url 'task_detail' task.pk %}">{{ task.title }}</a></h4>
+                            <span class="task-status {{ task.status }}">{{ task.get_status_display }}</span>
+                            <p class="task-due">Due: {{ task.due_date|date:"M d, Y" }}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No upcoming tasks.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

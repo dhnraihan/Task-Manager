@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Task Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        nav {
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+        }
+        .task-list {
+            margin-top: 20px;
+        }
+        .task-item {
+            background-color: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .btn {
+            display: inline-block;
+            padding: 8px 15px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-right: 5px;
+        }
+        .btn-primary {
+            background-color: #2196F3;
+        }
+        .btn-danger {
+            background-color: #f44336;
+        }
+        form {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        /* New Dashboard Styles */
+        .dashboard {
+            margin-top: 20px;
+        }
+        .stats-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+        .stat-box {
+            background-color: white;
+            border-radius: 5px;
+            padding: 15px;
+            width: 22%;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-top: 4px solid #2196F3;
+        }
+        .stat-box h3 {
+            margin-top: 0;
+            color: #555;
+        }
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 10px 0;
+            color: #333;
+        }
+        .stat-box.pending {
+            border-top-color: #FF9800;
+        }
+        .stat-box.in-progress {
+            border-top-color: #673AB7;
+        }
+        .stat-box.completed {
+            border-top-color: #4CAF50;
+        }
+        .quick-actions {
+            background-color: white;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .task-sections {
+            display: flex;
+            justify-content: space-between;
+        }
+        .task-section {
+            background-color: white;
+            border-radius: 5px;
+            padding: 20px;
+            width: 48%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .task-preview-list {
+            list-style: none;
+            padding: 0;
+        }
+        .task-preview {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .task-preview:last-child {
+            border-bottom: none;
+        }
+        .task-preview h4 {
+            margin: 0 0 5px 0;
+        }
+        .task-preview h4 a {
+            color: #333;
+            text-decoration: none;
+        }
+        .task-preview h4 a:hover {
+            color: #2196F3;
+        }
+        .task-status {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 0.8em;
+            color: white;
+        }
+        .task-status.pending {
+            background-color: #FF9800;
+        }
+        .task-status.in_progress {
+            background-color: #673AB7;
+        }
+        .task-status.completed {
+            background-color: #4CAF50;
+        }
+        .task-due {
+            font-size: 0.9em;
+            color: #777;
+            margin: 3px 0 0 0;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <a href="{% url 'home' %}">Task Manager</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'task_list' %}">All Tasks</a>
+                <a href="{% url 'task_create' %}">New Task</a>
+                <a href="{% url 'logout' %}" style="float: right; margin-top: -10px;">Logout</a>
+                <span style="float: right; margin-right: 15px;">Hello, {{ user.username }}</span>
+            {% else %}
+                <a href="{% url 'login' %}" style="float: right; ">Login</a>
+            {% endif %}
+        </div>
+    </nav>
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>
